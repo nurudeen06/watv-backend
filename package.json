@@ -1,0 +1,33 @@
+{
+  "name": "demo-credit",
+  "version": "1.0.0",
+  "description": "A Demo Credit Rest-API Aplication",
+  "main": "app",
+  "type": "module",
+  "scripts": {
+    "test": "npm test",
+    "start": "node app"
+  },
+  "keywords": [
+    "Credit",
+    "Money",
+    "Transfer"
+  ],
+  "author": "Nurudeen Ahmed",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^2.3.0",
+    "mysql": "^2.18.1",
+    "node-input-validator": "^4.5.0"
+  },
+  "devDependencies": {
+    "gts": "^3.1.1",
+    "typescript": "~4.7.0",
+    "@types/node": "^14.11.2"
+  }
+}
