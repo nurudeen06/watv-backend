@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const authJwt = require('./helpers/jwt');
 const errorHandler = require('./helpers/error-handler');
-require('dotenv/config');
+require('dotenv').config();
 
 app.use(cors());
 app.options('*', cors());
@@ -18,7 +18,7 @@ app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 app.use(errorHandler);
 //Routes
 const categoriesRoutes = require('./routers/categories');
-const productsRoutes = require('./routers/products');
+const productsRoutes = require('./routers/listing');
 const usersRoutes = require('./routers/users');
 const ordersRoutes = require('./routers/orders');
 
