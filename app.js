@@ -31,7 +31,7 @@ app.use(`${api}/users`, usersRoutes);
 app.use(`${api}/orders`, ordersRoutes);
 
 mongoose
-.connect(process.env.CONNECTION_STRING, {
+.connect('mongodb+srv://newtonian:juiVvNSI13s8AMnf@cluster0.9jzejtz.mongodb.net/?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     dbName: 'whatsapptv',
