@@ -23,7 +23,7 @@ const usersRoutes = require('./routers/users');
 const ordersRoutes = require('./routers/orders');
 
 
-const api = process.env.API_URL;
+const api = '/api/v1';
 
 app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/listing`, listingRoutes);
