@@ -34,7 +34,7 @@ mongoose
 .connect(process.env.CONNECTION_STRING, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    dbName: 'paknational-database',
+    dbName: 'whatsapptv',
 })
 .then(() => {
     console.log('Database Connection is ready...');
