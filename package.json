@@ -2,11 +2,11 @@
   "name": "demo-credit",
   "version": "1.0.0",
   "description": "A Demo Credit Rest-API Aplication",
-  "main": "app",
+  "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "npm test",
-    "start": "node app"
+    "start": "pm2-runtime start ecosystem.config.js --env production",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "Credit",
@@ -22,8 +22,10 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.3.0",
+    "multer": "^1.4.5-lts.1",
     "mysql": "^2.18.1",
-    "node-input-validator": "^4.5.0"
+    "node-input-validator": "^4.5.0",
+    "pm2": "^5.2.2"
   },
   "devDependencies": {
     "gts": "^3.1.1",
