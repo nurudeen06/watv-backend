@@ -1,7 +1,7 @@
 {
-  "name": "eshop",
+  "name": "whatsapptv",
   "version": "1.0.0",
-  "description": "backend of the eshop",
+  "description": "backend of the whatsapptv",
   "main": "app.js",
   "scripts": {
     "start": "node app",
