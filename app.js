@@ -28,7 +28,6 @@ const api = '/api/v1';
 app.use(`${api}/categories`, categoriesRoutes);
 app.use(`${api}/listing`, listingRoutes);
 app.use(`${api}/users`, usersRoutes);
-app.use(`${api}/orders`, ordersRoutes);
 
 mongoose
 .connect('mongodb+srv://newtonian:juiVvNSI13s8AMnf@cluster0.9jzejtz.mongodb.net/?retryWrites=true&w=majority', {

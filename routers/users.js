@@ -60,17 +60,31 @@ router.post('/login', async (req,res) => {
     }
 })
     router.post('/register', async (req,res)=>{
+        const checkUser = await User.findOne({email: req.body.email})
+        const secret = 'my-dog-is-nice';
+        if(checkUser) {
+            return res.status(400).send('The user exists');
+        }
          let user = new User({
             email: req.body.email,
             passwordHash: bcrypt.hashSync(req.body.password, 10),
-            isAdmin: false
+            isAdmin: true
         })
         user = await user.save();
     
-        if(!user)
-        return res.status(400).send('the user cannot be created!')
-    
-        res.send(user);
+        if(!user) {
+            return res.status(400).send('the user cannot be created!')
+        }
+        const token = jwt.sign(
+            {
+                userId: user.id,
+                isAdmin: user.isAdmin
+            },
+            secret,
+            {expiresIn : '1d'}
+        )
+        
+        res.status(200).send({userId: user.id, email: user.email, isAdmin: user.isAdmin, token: token});
     })
 
     router.get(`/get/count`, async (req, res) =>{
