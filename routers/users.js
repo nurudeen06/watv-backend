@@ -68,7 +68,7 @@ router.post('/login', async (req,res) => {
          let user = new User({
             email: req.body.email,
             passwordHash: bcrypt.hashSync(req.body.password, 10),
-            isAdmin: true
+            isAdmin: false
         })
         user = await user.save();
     
