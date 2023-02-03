@@ -32,12 +32,8 @@ const storage = multer.diskStorage({
 const uploadOptions = multer({ storage: storage });
 
 router.get(`/`, async (req, res) =>{
-    let filter = {};
-    if(req.query.categories)
-    {
-        filter = {category: req.query.categories.split(',')}
-    }
-    const listingList = await Listing.find(filter).populate('category');
+    
+    const listingList = await Listing.find();
 
     if(!listingList) {
         res.status(500).json({success: false})
@@ -46,7 +42,7 @@ router.get(`/`, async (req, res) =>{
 })
 
 router.get(`/:id`, async (req, res) =>{
-    const listing = await Listing.findById(req.params.id).populate('category');
+    const listing = await Listing.findById(req.params.id);
 
     if(!listing) {
         res.status(500).json({success: false})

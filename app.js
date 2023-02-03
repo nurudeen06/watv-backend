@@ -17,15 +17,14 @@ app.use(authJwt());
 app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 app.use(errorHandler);
 //Routes
-const categoriesRoutes = require('./routers/categories');
+const adminRoutes = require('./routers/admin');
 const listingRoutes = require('./routers/listing');
 const usersRoutes = require('./routers/users');
-const ordersRoutes = require('./routers/orders');
 
 
 const api = '/api/v1';
 
-app.use(`${api}/categories`, categoriesRoutes);
+app.use(`${api}/admin`, adminRoutes);
 app.use(`${api}/listing`, listingRoutes);
 app.use(`${api}/users`, usersRoutes);
 
