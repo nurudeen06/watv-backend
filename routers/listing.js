@@ -128,7 +128,7 @@ router.get(`/get/count`, async (req, res) =>{
 
 router.get(`/get/featured/:count`, async (req, res) =>{
     const count = req.params.count ? req.params.count : 0
-    let listings = await Listing.find({isFeatured: true}).limit(+count);
+    let listings = await Listing.find({category: 3}).limit(+count);
     //const listingCount = await Listing.countDocuments((count) => count)
 
     if(!listings) {
