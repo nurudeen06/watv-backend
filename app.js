@@ -13,9 +13,9 @@ app.use(cors());
 //Middleware
 app.use(express.json());
 app.use(morgan('tiny'));
-//app.use(authJwt());
+app.use(authJwt());
 app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
-//app.use(errorHandler);
+app.use(errorHandler);
 //Routes
 const adminRoutes = require('./routers/admin');
 const listingRoutes = require('./routers/listing');
