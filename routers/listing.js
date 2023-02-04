@@ -1,6 +1,5 @@
 const {Listing} = require('../models/listing');
 const express = require('express');
-const { Category } = require('../models/category');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -51,9 +50,6 @@ router.get(`/:id`, async (req, res) =>{
 })
 
 router.post(`/`, uploadOptions.single('image'), async (req, res) => {
-    //const category = await Category.findById(req.body.category);
-    // const category = await Category.find({name: req.body.category});
-    // if(!category) return res.status(400).send('Invalid Category')
 
     const file = req.file;
     if (!file) return res.status(400).send('No image in the request');
@@ -85,9 +81,6 @@ router.put('/:id', uploadOptions.single('image'), async (req, res) => {
         res.status(400).send('Invalid Listing Id')
     }
 
-    const category = await Category.findById(req.body.category);
-    if(!category) return res.status(400).send('Invalid Category')
-
     const listing = await Listing.findById(req.params.id);
     if (!listing) return res.status(400).send('Invalid Listing!');
 
@@ -105,17 +98,11 @@ router.put('/:id', uploadOptions.single('image'), async (req, res) => {
     const updatedListing = await Listing.findByIdAndUpdate(
         req.params.id,
         {
-        name: req.body.name,
-        description: req.body.description,
-        richDescription: req.body.richDescription,
-        image: imagepath,
-        brand: req.body.brand,
-        price: req.body.price,
-        category: req.body.category,
-        countInStock: req.body.countInStock,
-        rating: req.body.rating,
-        numReviews: req.body.numReviews,
-        isFeatured: req.body.isFeatured,
+            title: req.body.title,
+            description: req.body.description,
+            link: req.body.link,
+            image: `${basePath}${fileName}`, 
+            number: req.body.number,
         },
         {new: true}
     )
