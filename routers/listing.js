@@ -49,26 +49,27 @@ router.get(`/:id`, async (req, res) =>{
     res.status(200).send(listing);
 })
 
-router.post(`/`, uploadOptions.single('image'), async (req, res) => {
+router.post(`/`,/* uploadOptions.single('image'), async */(req, res) => {
 
-    const file = req.file;
-    if (!file) return res.status(400).send('No image in the request');
+    //const file = req.file;
+    //if (!file) return res.status(400).send('No image in the request');
 
-    const fileName = file.filename;
+    //const fileName = file.filename;
     //const fileName = req.file.filename;
-    const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
+    //const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`;
 
     let listing = new Listing({
         title: req.body.title,
         description: req.body.description,
         link: req.body.link,
-        //image: fileName,
-        image: `${basePath}${fileName}`, //"http://localhost:3000/public/uploads/image-2323232"
+        image: `${req.get('host')}/public/uploads/default.jpg`,
+        //image: `${basePath}${fileName}`, //"http://localhost:3000/public/uploads/image-2323232"
         number: req.body.number,
         email: req.body.email,
     })
+    console.log(req)
 
-    listing = await listing.save();
+    listing = /*await*/ listing.save();
 
     if(!listing) return res.status(500).send('The Listing cannot be created')
 
