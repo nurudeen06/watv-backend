@@ -67,7 +67,7 @@ router.post(`/`,/* uploadOptions.single('image'), async */(req, res) => {
         number: req.body.number,
         email: req.body.email,
     })
-    console.log(req)
+    console.log(req.body)
 
     listing = /*await*/ listing.save();
 
