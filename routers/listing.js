@@ -37,7 +37,7 @@ router.get(`/`, async (req, res) =>{
     if(!listingList) {
         res.status(500).json({success: false})
     } 
-    res.send(listingList);
+    res.status(200).send(listingList);
 })
 
 router.get(`/:id`, async (req, res) =>{
@@ -46,7 +46,7 @@ router.get(`/:id`, async (req, res) =>{
     if(!listing) {
         res.status(500).json({success: false})
     } 
-    res.send(listing);
+    res.status(200).send(listing);
 })
 
 router.post(`/`, uploadOptions.single('image'), async (req, res) => {
@@ -70,10 +70,9 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
 
     listing = await listing.save();
 
-    if(!listing)
-    return res.status(500).send('The Listing cannot be created')
+    if(!listing) return res.status(500).send('The Listing cannot be created')
 
-    res.send(listing);
+    res.status(200).send(listing);
 })
 
 router.put('/:id', uploadOptions.single('image'), async (req, res) => {
@@ -114,18 +113,6 @@ router.put('/:id', uploadOptions.single('image'), async (req, res) => {
 })
 
 
-router.delete(`/:id`, (req, res) =>{
-    Listing.findByIdAndRemove(req.params.id).then(listing =>{
-        if(listing) {
-            return res.status(200).json({success: true, message: 'The Listing is deleted!'})
-        } else {
-            return res.status(404).json({success: false, message:'Listing not found!!'})
-        }
-    }).catch(err=>{
-        return res.status(400).json({success: false, error:err})
-    })
-})
-
 router.get(`/get/count`, async (req, res) =>{
     
     let listingCount = await Listing.countDocuments();
@@ -134,7 +121,7 @@ router.get(`/get/count`, async (req, res) =>{
     if(!listingCount) {
         res.status(500).json({success: false})
     } 
-    res.send({
+    res.status(200).send({
         listingCount: listingCount
     });
 })
@@ -147,7 +134,7 @@ router.get(`/get/featured/:count`, async (req, res) =>{
     if(!listings) {
         res.status(500).json({success: false})
     } 
-    res.send(listings);
+    res.status(200).send(listings);
 })
 
 router.put('/gallery-images/:id', uploadOptions.array('images', 10), async (req, res) => {
