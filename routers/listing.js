@@ -49,7 +49,7 @@ router.get(`/:id`, async (req, res) =>{
     res.status(200).send(listing);
 })
 
-router.post(`/`,/* uploadOptions.single('image'), async */(req, res) => {
+router.post(`/`,/* uploadOptions.single('image'), */async (req, res) => {
 
     //const file = req.file;
     //if (!file) return res.status(400).send('No image in the request');
@@ -69,7 +69,7 @@ router.post(`/`,/* uploadOptions.single('image'), async */(req, res) => {
     })
     console.log(req.body)
 
-    listing = /*await*/ listing.save();
+    listing = await listing.save();
 
     if(!listing) return res.status(500).send('The Listing cannot be created')
 
