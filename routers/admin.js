@@ -28,7 +28,7 @@ router.put(`/:id`, async (req, res)=> {
     const listing = await Listing.findByIdAndUpdate(
         req.params.id,
         {
-            listing: req.body.category
+            category: req.body.category
         },
         {new: true}
     )
