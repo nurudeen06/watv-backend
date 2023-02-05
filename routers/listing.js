@@ -10,25 +10,25 @@ const FILE_TYPE_MAP = {
     'image/jpg': 'jpg',
 };
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        const isValid = FILE_TYPE_MAP[file.mimetype];
-        cb(null, `${req.get('host')}/public/uploads`);
-        let uploadError = new Error('invalid image type');
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         const isValid = FILE_TYPE_MAP[file.mimetype];
+//         cb(null, `${req.get('host')}/public/uploads`);
+//         let uploadError = new Error('invalid image type');
 
-        if (isValid) {
-             uploadError = null;
-         }
-        cb(uploadError, `${req.get('host')}/public/uploads`);
-    },
-    filename: function (req, file, cb) {
-        const fileName = file.originalname.split(' ').join('-');
-        const extension = FILE_TYPE_MAP[file.mimetype];
-        cb(null, `${fileName}-${Date.now()}.${extension}`)
-    }
-})
+//         if (isValid) {
+//              uploadError = null;
+//          }
+//         cb(uploadError, `${req.get('host')}/public/uploads`);
+//     },
+//     filename: function (req, file, cb) {
+//         const fileName = file.originalname.split(' ').join('-');
+//         const extension = FILE_TYPE_MAP[file.mimetype];
+//         cb(null, `${fileName}-${Date.now()}.${extension}`)
+//     }
+// })
 
-const uploadOptions = multer({ storage: storage });
+const uploadOptions = multer({ dest: '/public/uploads' });
 
 router.get(`/`, async (req, res) =>{
     
