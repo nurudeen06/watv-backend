@@ -28,7 +28,7 @@ const FILE_TYPE_MAP = {
 //     }
 // })
 
-const uploadOptions = multer({ dest: 'public/uploads' });
+const uploadOptions = multer({ dest: `${req.get('host')}/public/uploads/` });
 
 router.get(`/`, async (req, res) =>{
     
