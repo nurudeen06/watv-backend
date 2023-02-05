@@ -4,7 +4,7 @@
   "description": "backend of the whatsapptv",
   "main": "app.js",
   "scripts": {
-    "start": "pm2-runtime start ecosystem.config.js --env prod",
+    "start": "pm2-runtime start ecosystem.config.js --env local",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
