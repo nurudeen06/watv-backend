@@ -8,7 +8,7 @@ const errorHandler = require('./helpers/error-handler');
 //require('dotenv').config();
 
 app.use(cors());
-app.options('*', cors());
+//app.options('*', cors());
 
 //Middleware
 app.use(express.json());
