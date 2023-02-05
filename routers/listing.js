@@ -28,7 +28,7 @@ const FILE_TYPE_MAP = {
 //     }
 // })
 
-const uploadOptions = multer({ dest: '/public/uploads' });
+//const uploadOptions = multer({ dest: '/public/uploads' });
 
 router.get(`/`, async (req, res) =>{
     
@@ -49,7 +49,7 @@ router.get(`/:id`, async (req, res) =>{
     res.status(200).send(listing);
 })
 
-router.post(`/`, uploadOptions.single('image'), async (req, res) => {
+router.post(`/`, /*uploadOptions.single('image'),*/ async (req, res) => {
 
     const file = req.file;
     //if (!file) return res.status(400).send('No image in the request');
