@@ -10,25 +10,25 @@ const FILE_TYPE_MAP = {
     'image/jpg': 'jpg',
 };
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         const isValid = FILE_TYPE_MAP[file.mimetype];
-//         cb(null, 'public/uploads');
-//         let uploadError = new Error('invalid image type');
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const isValid = FILE_TYPE_MAP[file.mimetype];
+        cb(null, 'public/uploads');
+        let uploadError = new Error('invalid image type');
 
-//         if (isValid) {
-//              uploadError = null;
-//          }
-//         cb(uploadError, 'public/uploads');
-//     },
-//     filename: function (req, file, cb) {
-//         const fileName = file.originalname.split(' ').join('-');
-//         const extension = FILE_TYPE_MAP[file.mimetype];
-//         cb(null, `${fileName}-${Date.now()}.${extension}`)
-//     }
-// })
+        if (isValid) {
+             uploadError = null;
+         }
+        cb(uploadError, 'public/uploads');
+    },
+    filename: function (req, file, cb) {
+        const fileName = file.originalname.split(' ').join('-');
+        const extension = FILE_TYPE_MAP[file.mimetype];
+        cb(null, `${fileName}-${Date.now()}.${extension}`)
+    }
+})
 
-const uploadOptions = multer({ dest: `${req.get('host')}/public/uploads/` });
+const uploadOptions = multer({ storage: storage });
 
 router.get(`/`, async (req, res) =>{
     
@@ -56,12 +56,12 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
      const fileName = file.filename;
     
     
-
+     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
     let listing = new Listing({
         title: req.body.title,
         description: req.body.description,
         link: req.body.link,
-        image: file? `${req.get('host')}/public/uploads/${Date.now()}-${fileName}` : `${req.get('host')}/public/uploads/default.jpg`,
+        image: file?`${basePath}${fileName}` : `${req.get('host')}/public/uploads/default.jpg`,
         //image: `${basePath}${fileName}`, //"http://localhost:3000/public/uploads/image-2323232"
         number: req.body.number,
         email: req.body.email,
