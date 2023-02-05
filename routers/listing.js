@@ -13,13 +13,13 @@ const FILE_TYPE_MAP = {
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const isValid = FILE_TYPE_MAP[file.mimetype];
-        cb(null, 'public/uploads');
+        cb(null, `${req.get('host')}/public/uploads`);
         let uploadError = new Error('invalid image type');
 
         if (isValid) {
              uploadError = null;
          }
-        cb(uploadError, 'public/uploads');
+        cb(uploadError, `${req.get('host')}/public/uploads`);
     },
     filename: function (req, file, cb) {
         const fileName = file.originalname.split(' ').join('-');
