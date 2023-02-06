@@ -38,6 +38,7 @@ router.post('/', async (req,res)=>{
 })
 
 router.post('/login', async (req,res) => {
+    console.log(req)
     const user = await User.findOne({email: req.body.email})
     const secret = 'my-dog-is-nice';
     if(!user) {
