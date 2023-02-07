@@ -4,7 +4,12 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
 const aws = require('aws-sdk');
-aws.config.region = 'us-east-1';
+const fs = require('fs');
+
+const region = 'us-east-1'
+const accessKeyId = process.env.AWS_ACCESS_KEY_ID
+const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+
 const FILE_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpeg',
@@ -55,37 +60,35 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
     const file = req.file;
     if (!file) return res.status(400).send('No image in the request');
      //const fileName = file.filename;
-     const s3 = new aws.S3();
-  const fileName = file.filename;
-  const fileType = FILE_TYPE_MAP[file.mimetype];
-  const s3Params = {
-    Bucket: S3_BUCKET,
-    Key: fileName,
-    Expires: 60,
-    ContentType: fileType,
-    ACL: 'public-read'
-  };
+     const s3 = new aws.S3({
+        accessKeyId: accessKeyId,
+        secretAccessKey: secretAccessKey,
+        region:region
+    });
+  const uploadImage=(file)=>{
+    const fileStream =fs.createReadStream(file.path);
 
-  s3.getSignedUrl('putObject', s3Params, (err, data) => {
-    if(err){
-      console.log(err);
-      return res.end();
-    }
-    const returnData = {
-      signedRequest: data,
-      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+    const params = {
+        Bucket: S3_BUCKET,
+        Key: file.originalname,
+        Body: fileStream,
     };
-    console.log(returnData)
-    //res.write(JSON.stringify(returnData));
-    //res.end();
-  });
+
+    s3.upload(params, function (err, data) {
+        if (err) {
+            throw err
+        }
+        return data.Location
+    });
+}
+let upload = uploadImage(file);
+
     
-     const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
     let listing = new Listing({
         title: req.body.title,
         description: req.body.description,
         link: req.body.link,
-        image: file?`https://${S3_BUCKET}.s3.amazonaws.com/${fileName}` : `${req.get('host')}/public/uploads/default.jpg`,
+        image: file? upload : `${req.get('host')}/public/uploads/default.jpg`,
         //image: `${basePath}${fileName}`, //"http://localhost:3000/public/uploads/image-2323232"
         number: req.body.number,
         email: req.body.email,
