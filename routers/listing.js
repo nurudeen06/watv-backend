@@ -3,13 +3,14 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
-
+const aws = require('aws-sdk');
+aws.config.region = 'us-east-1';
 const FILE_TYPE_MAP = {
     'image/png': 'png',
     'image/jpeg': 'jpeg',
     'image/jpg': 'jpg',
 };
-
+const S3_BUCKET = process.env.S3_BUCKET;
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         const isValid = FILE_TYPE_MAP[file.mimetype];
@@ -49,24 +50,46 @@ router.get(`/:id`, async (req, res) =>{
     res.status(200).send(listing);
 })
 
-router.post(`/`, uploadOptions.single('image'), async (req, res) => {
+router.post(`/`, /*uploadOptions.single('image'),*/ async (req, res) => {
 
     const file = req.file;
     //if (!file) return res.status(400).send('No image in the request');
-     const fileName = file.filename;
-    
+     //const fileName = file.filename;
+     const s3 = new aws.S3();
+  const fileName = file.filename;
+  const fileType = FILE_TYPE_MAP[file.mimetype];
+  const s3Params = {
+    Bucket: S3_BUCKET,
+    Key: fileName,
+    Expires: 60,
+    ContentType: fileType,
+    ACL: 'public-read'
+  };
+
+  s3.getSignedUrl('putObject', s3Params, (err, data) => {
+    if(err){
+      console.log(err);
+      return res.end();
+    }
+    const returnData = {
+      signedRequest: data,
+      url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+    };
+    console.log(returnData)
+    //res.write(JSON.stringify(returnData));
+    //res.end();
+  });
     
      const basePath = `${req.protocol}://${req.get('host')}/public/uploads/`
     let listing = new Listing({
         title: req.body.title,
         description: req.body.description,
         link: req.body.link,
-        image: file?`${basePath}${fileName}` : `${req.get('host')}/public/uploads/default.jpg`,
+        image: file?`https://${S3_BUCKET}.s3.amazonaws.com/${fileName}` : `${req.get('host')}/public/uploads/default.jpg`,
         //image: `${basePath}${fileName}`, //"http://localhost:3000/public/uploads/image-2323232"
         number: req.body.number,
         email: req.body.email,
     })
-    console.log(req.body)
 
     listing = await listing.save();
 
