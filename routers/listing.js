@@ -56,34 +56,37 @@ router.get(`/:id`, async (req, res) =>{
 })
 
 router.post(`/`, uploadOptions.single('image'), async (req, res) => {
-
     const file = req.file;
-    if (!file) return res.status(400).send('No image in the request');
+    //if (!file) return res.status(400).send('No image in the request');
      //const fileName = file.filename;
+
+     if(file){
      const s3 = new aws.S3({
         accessKeyId: accessKeyId,
         secretAccessKey: secretAccessKey,
         region:region
     });
-  const uploadImage=(file)=>{
-    const fileStream =fs.createReadStream(file.path);
+    const uploadImage=(file)=>{
+        const fileStream =fs.createReadStream(file.path);
 
-    const params = {
-        Bucket: S3_BUCKET,
-        Key: file.originalname,
-        Body: fileStream,
-    };
-
-    s3.upload(params, function (err, data) {
-        if (err) {
-            throw err
+        const params = {
+            Bucket: S3_BUCKET,
+            Key: file.originalname,
+            Body: fileStream,
+        };
+        const update = (loc)=> {
+            return loc
         }
-        return data.Location
-    });
-}
-let upload = uploadImage(file);
 
-    
+        s3.upload(params, function (err, data) {
+            if (err) {
+                throw err
+            }
+        });
+    }
+    uploadImage(file);
+}
+   let upload = `https://${S3_BUCKET}.s3.amazonaws.com/${file.originalname}`
     let listing = new Listing({
         title: req.body.title,
         description: req.body.description,
