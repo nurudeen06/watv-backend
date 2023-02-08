@@ -66,6 +66,8 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
         secretAccessKey: secretAccessKey,
         region:region
     });
+    console.log(accessKeyId)
+    console.log(secretAccessKey)
     const uploadImage=(file)=>{
         const fileStream =fs.createReadStream(file.path);
 
@@ -74,10 +76,6 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
             Key: file.originalname,
             Body: fileStream,
         };
-        const update = (loc)=> {
-            return loc
-        }
-
         s3.upload(params, function (err, data) {
             if (err) {
                 throw err
