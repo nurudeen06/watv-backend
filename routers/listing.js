@@ -66,8 +66,6 @@ router.post(`/`, uploadOptions.single('image'), async (req, res) => {
         secretAccessKey: secretAccessKey,
         region:region
     });
-    console.log(accessKeyId)
-    console.log(secretAccessKey)
     const uploadImage=(file)=>{
         const fileStream =fs.createReadStream(file.path);
 
